@@ -1,1260 +1,1089 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Etsy POD Profit Calculator | Modern Magpie</title>
-    <meta name="description" content="Calculate your exact Etsy POD profit after ALL fees. Professional calculator used by 1,000+ sellers. Know your real margins before you launch.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --navy-primary: #1a365d;
-            --navy-secondary: #2d3748;
-            --teal-accent: #0694a2;
-            --teal-light: #17a2b8;
-            --success-green: #10b981;
-            --warning-amber: #f59e0b;
-            --danger-red: #ef4444;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--navy-primary) 0%, var(--teal-accent) 100%);
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
-            color: var(--gray-800);
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 50%, var(--teal-accent) 100%);
-            color: white;
-            padding: 50px 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .brand-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .brand-name {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .header h1 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            letter-spacing: -1px;
-            line-height: 1.2;
-        }
-
-        .header .subtitle {
-            font-size: 18px;
-            opacity: 0.95;
-            font-weight: 500;
-        }
-
-        .stats-bar {
-            display: flex;
-            gap: 30px;
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-
-        /* Content */
-        .content {
-            padding: 50px 40px;
-        }
-
-        .alert-info {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-left: 4px solid var(--warning-amber);
-            padding: 20px 24px;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .alert-info-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .alert-icon {
-            font-size: 24px;
-        }
-
-        .alert-title {
-            font-weight: 700;
-            color: #92400e;
-            font-size: 16px;
-        }
-
-        .alert-text {
-            color: #78350f;
-            line-height: 1.7;
-            font-size: 15px;
-        }
-
-        /* Form Section */
-        .calculator-section {
-            background: var(--gray-50);
-            padding: 35px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            border: 1px solid var(--gray-200);
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-label {
-            font-weight: 600;
-            color: var(--gray-700);
-            margin-bottom: 8px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .label-icon {
-            font-size: 18px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-prefix {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-600);
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 14px 16px 14px 32px;
-            border: 2px solid var(--gray-300);
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--teal-accent);
-            box-shadow: 0 0 0 4px rgba(6, 148, 162, 0.1);
-        }
-
-        .checkbox-card {
-            background: white;
-            border: 2px solid var(--gray-300);
-            border-radius: 10px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .checkbox-card:hover {
-            border-color: var(--teal-accent);
-            background: rgba(6, 148, 162, 0.02);
-        }
-
-        .checkbox-card.checked {
-            border-color: var(--teal-accent);
-            background: rgba(6, 148, 162, 0.05);
-        }
-
-        input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-            accent-color: var(--teal-accent);
-        }
-
-        .checkbox-label {
-            font-weight: 500;
-            color: var(--gray-700);
-            cursor: pointer;
-            font-size: 14px;
-            flex: 1;
-        }
-
-        .btn-calculate {
-            width: 100%;
-            background: linear-gradient(135deg, var(--teal-accent) 0%, var(--teal-light) 100%);
-            color: white;
-            padding: 18px 32px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 10px 15px -3px rgba(6, 148, 162, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-calculate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(6, 148, 162, 0.4);
-        }
-
-        .btn-calculate:active {
-            transform: translateY(0);
-        }
-
-        /* Results Section */
-        .results {
-            display: none;
-            animation: slideIn 0.5s ease;
-        }
-
-        .results.show {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .results-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 8px;
-        }
-
-        .results-subtitle {
-            color: var(--gray-600);
-            font-size: 15px;
-        }
-
-        .key-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 35px;
-        }
-
-        .metric-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            border: 2px solid var(--gray-200);
-            transition: all 0.3s ease;
-        }
-
-        .metric-card:hover {
-            border-color: var(--teal-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .metric-label {
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--gray-600);
-            margin-bottom: 8px;
-        }
-
-        .metric-value {
-            font-size: 32px;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-
-        .metric-value.positive {
-            color: var(--success-green);
-        }
-
-        .metric-value.warning {
-            color: var(--warning-amber);
-        }
-
-        .metric-value.negative {
-            color: var(--danger-red);
-        }
-
-        .metric-detail {
-            font-size: 13px;
-            color: var(--gray-600);
-            font-weight: 500;
-        }
-
-        /* Breakdown Section */
-        .breakdown-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            border: 2px solid var(--gray-200);
-            margin-bottom: 35px;
-        }
-
-        .breakdown-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .breakdown-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--gray-200);
-            font-size: 15px;
-        }
-
-        .breakdown-row:last-child {
-            border-bottom: none;
-        }
-
-        .breakdown-label {
-            color: var(--gray-700);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .breakdown-value {
-            font-weight: 700;
-            color: var(--navy-primary);
-            font-size: 16px;
-        }
-
-        .breakdown-total {
-            background: var(--gray-50);
-            margin: 20px -30px -30px;
-            padding: 20px 30px;
-            border-top: 2px solid var(--gray-300);
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--navy-primary);
-        }
-
-        .total-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--navy-primary);
-        }
-
-        /* Verdict Section */
-        .verdict-card {
-            border-radius: 12px;
-            padding: 28px;
-            margin-bottom: 35px;
-            border: 2px solid;
-        }
-
-        .verdict-card.success {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border-color: var(--success-green);
-        }
-
-        .verdict-card.warning {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-color: var(--warning-amber);
-        }
-
-        .verdict-card.danger {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border-color: var(--danger-red);
-        }
-
-        .verdict-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .verdict-icon {
-            font-size: 28px;
-        }
-
-        .verdict-title {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .verdict-card.success .verdict-title {
-            color: #065f46;
-        }
-
-        .verdict-card.warning .verdict-title {
-            color: #92400e;
-        }
-
-        .verdict-card.danger .verdict-title {
-            color: #991b1b;
-        }
-
-        .verdict-text {
-            line-height: 1.7;
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .verdict-card.success .verdict-text {
-            color: #047857;
-        }
-
-        .verdict-card.warning .verdict-text {
-            color: #78350f;
-        }
-
-        .verdict-card.danger .verdict-text {
-            color: #7f1d1d;
-        }
-
-        /* Email Capture */
-        .email-form {
-            background: var(--gray-50);
-            padding: 25px;
-            border-radius: 12px;
-            margin: 30px 0;
-            text-align: center;
-            border: 1px solid var(--gray-200);
-        }
-
-        .email-form h4 {
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--navy-primary);
-        }
-
-        .email-form p {
-            color: var(--gray-700);
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-
-        .email-input-group {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-            gap: 10px;
-        }
-
-        .email-input-group input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 2px solid var(--gray-300);
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .email-input-group button {
-            background: var(--teal-accent);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .email-input-group button:hover {
-            background: var(--teal-light);
-        }
-
-        .email-disclaimer {
-            font-size: 12px;
-            color: var(--gray-600);
-            margin-top: 12px;
-        }
-
-        /* Free Prompt CTA */
-        .free-prompt {
-            background: #e3f2fd;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 30px 0;
-            text-align: center;
-            border: 1px solid #bbdefb;
-        }
-
-        .free-prompt h4 {
-            margin-bottom: 12px;
-            color: var(--teal-accent);
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .free-prompt p {
-            color: var(--gray-700);
-            margin-bottom: 20px;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .free-prompt a {
-            color: var(--teal-accent);
-            text-decoration: underline;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .free-prompt a:hover {
-            text-decoration: none;
-        }
-
-        /* Scarcity Banner */
-        .scarcity-banner {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 700;
-            margin: 30px 0;
-            border: 1px solid #ffeaa7;
-            font-size: 16px;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 50%, var(--teal-accent) 100%);
-            border-radius: 16px;
-            padding: 45px 40px;
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-
-        .cta-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .cta-description {
-            font-size: 16px;
-            line-height: 1.7;
-            opacity: 0.95;
-            margin-bottom: 12px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-features {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 25px 0 35px;
-            flex-wrap: wrap;
-        }
-
-        .cta-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            color: var(--navy-primary);
-            padding: 16px 32px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.5);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--gray-50);
-            padding: 40px;
-            text-align: center;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .footer-brand {
-            font-weight: 700;
-            color: var(--navy-primary);
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .footer-text {
-            color: var(--gray-600);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            color: var(--teal-accent);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--navy-primary);
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 40px 30px;
-            }
-
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .stats-bar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .content {
-                padding: 40px 30px;
-            }
-
-            .calculator-section {
-                padding: 25px;
-            }
-
-            .input-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .key-metrics {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-section {
-                padding: 35px 25px;
-            }
-
-            .cta-title {
-                font-size: 24px;
-            }
-
-            .cta-features {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn-primary, .btn-secondary {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .email-input-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Etsy POD Profit Calculator | Modern Magpie</title>
+<meta name="description" content="Calculate your exact Etsy POD profit after ALL fees. Professional calculator used by 1,000+ sellers. Know your real margins before you launch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+:root {
+--navy-primary: #1a365d;
+--navy-secondary: #2d3748;
+--teal-accent: #0694a2;
+--teal-light: #17a2b8;
+--success-green: #10b981;
+--warning-amber: #f59e0b;
+--danger-red: #ef4444;
+--gray-50: #f9fafb;
+--gray-100: #f3f4f6;
+--gray-200: #e5e7eb;
+--gray-300: #d1d5db;
+--gray-600: #4b5563;
+--gray-700: #374151;
+--gray-800: #1f2937;
+}
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+background: linear-gradient(135deg, var(--navy-primary) 0%, var(--teal-accent) 100%);
+min-height: 100vh;
+padding: 20px;
+line-height: 1.6;
+color: var(--gray-800);
+}
+.container {
+max-width: 900px;
+margin: 0 auto;
+background: white;
+border-radius: 20px;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+overflow: hidden;
+}
+/* Header */
+.header {
+background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 50%, var(--teal-accent) 100%);
+color: white;
+padding: 50px 40px;
+position: relative;
+overflow: hidden;
+}
+.header::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -10%;
+width: 400px;
+height: 400px;
+background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+border-radius: 50%;
+}
+.header-content {
+position: relative;
+z-index: 1;
+}
+.brand {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 20px;
+}
+.brand-name {
+font-size: 20px;
+font-weight: 700;
+letter-spacing: -0.5px;
+}
+.header h1 {
+font-size: 36px;
+font-weight: 800;
+margin-bottom: 12px;
+letter-spacing: -1px;
+line-height: 1.2;
+}
+.header .subtitle {
+font-size: 18px;
+opacity: 0.95;
+font-weight: 500;
+}
+.stats-bar {
+display: flex;
+gap: 30px;
+margin-top: 25px;
+padding-top: 25px;
+border-top: 1px solid rgba(255,255,255,0.2);
+}
+.stat-item {
+display: flex;
+flex-direction: column;
+}
+.stat-value {
+font-size: 24px;
+font-weight: 700;
+line-height: 1;
+margin-bottom: 4px;
+}
+.stat-label {
+font-size: 13px;
+opacity: 0.8;
+font-weight: 500;
+}
+/* Content */
+.content {
+padding: 50px 40px;
+}
+.alert-info {
+background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+border-left: 4px solid var(--warning-amber);
+padding: 20px 24px;
+margin-bottom: 40px;
+border-radius: 12px;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.alert-info-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 10px;
+}
+.alert-icon {
+font-size: 24px;
+}
+.alert-title {
+font-weight: 700;
+color: #92400e;
+font-size: 16px;
+}
+.alert-text {
+color: #78350f;
+line-height: 1.7;
+font-size: 15px;
+}
+/* Form Section */
+.calculator-section {
+background: var(--gray-50);
+padding: 35px;
+border-radius: 16px;
+margin-bottom: 40px;
+border: 1px solid var(--gray-200);
+}
+.section-title {
+font-size: 20px;
+font-weight: 700;
+color: var(--navy-primary);
+margin-bottom: 25px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.input-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+margin-bottom: 25px;
+}
+.input-group {
+display: flex;
+flex-direction: column;
+}
+.input-label {
+font-weight: 600;
+color: var(--gray-700);
+margin-bottom: 8px;
+font-size: 14px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.label-icon {
+font-size: 18px;
+}
+.input-wrapper {
+position: relative;
+}
+.input-prefix {
+position: absolute;
+left: 16px;
+top: 50%;
+transform: translateY(-50%);
+color: var(--gray-600);
+font-weight: 600;
+font-size: 16px;
+}
+input[type="number"] {
+width: 100%;
+padding: 14px 16px 14px 32px;
+border: 2px solid var(--gray-300);
+border-radius: 10px;
+font-size: 16px;
+font-weight: 600;
+font-family: 'Inter', sans-serif;
+transition: all 0.3s ease;
+background: white;
+}
+input[type="number"]:focus {
+outline: none;
+border-color: var(--teal-accent);
+box-shadow: 0 0 0 4px rgba(6, 148, 162, 0.1);
+}
+.checkbox-card {
+background: white;
+border: 2px solid var(--gray-300);
+border-radius: 10px;
+padding: 16px;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.checkbox-card:hover {
+border-color: var(--teal-accent);
+background: rgba(6, 148, 162, 0.02);
+}
+.checkbox-card.checked {
+border-color: var(--teal-accent);
+background: rgba(6, 148, 162, 0.05);
+}
+input[type="checkbox"] {
+width: 22px;
+height: 22px;
+cursor: pointer;
+accent-color: var(--teal-accent);
+}
+.checkbox-label {
+font-weight: 500;
+color: var(--gray-700);
+cursor: pointer;
+font-size: 14px;
+flex: 1;
+}
+.btn-calculate {
+width: 100%;
+background: linear-gradient(135deg, var(--teal-accent) 0%, var(--teal-light) 100%);
+color: white;
+padding: 18px 32px;
+border: none;
+border-radius: 12px;
+font-size: 18px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.3s ease;
+font-family: 'Inter', sans-serif;
+box-shadow: 0 10px 15px -3px rgba(6, 148, 162, 0.3);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+.btn-calculate:hover {
+transform: translateY(-2px);
+box-shadow: 0 20px 25px -5px rgba(6, 148, 162, 0.4);
+}
+.btn-calculate:active {
+transform: translateY(0);
+}
+/* Results Section */
+.results {
+display: none;
+animation: slideIn 0.5s ease;
+}
+.results.show {
+display: block;
+}
+@keyframes slideIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.results-header {
+text-align: center;
+margin-bottom: 35px;
+}
+.results-title {
+font-size: 24px;
+font-weight: 700;
+color: var(--navy-primary);
+margin-bottom: 8px;
+}
+.results-subtitle {
+color: var(--gray-600);
+font-size: 15px;
+}
+.key-metrics {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 20px;
+margin-bottom: 35px;
+}
+.metric-card {
+background: white;
+border-radius: 12px;
+padding: 24px;
+border: 2px solid var(--gray-200);
+transition: all 0.3s ease;
+}
+.metric-card:hover {
+border-color: var(--teal-accent);
+transform: translateY(-2px);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.metric-label {
+font-size: 13px;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+color: var(--gray-600);
+margin-bottom: 8px;
+}
+.metric-value {
+font-size: 32px;
+font-weight: 800;
+line-height: 1;
+margin-bottom: 6px;
+}
+.metric-value.positive {
+color: var(--success-green);
+}
+.metric-value.warning {
+color: var(--warning-amber);
+}
+.metric-value.negative {
+color: var(--danger-red);
+}
+.metric-detail {
+font-size: 13px;
+color: var(--gray-600);
+font-weight: 500;
+}
+/* Breakdown Section */
+.breakdown-section {
+background: white;
+border-radius: 12px;
+padding: 30px;
+border: 2px solid var(--gray-200);
+margin-bottom: 35px;
+}
+.breakdown-title {
+font-size: 18px;
+font-weight: 700;
+color: var(--navy-primary);
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.breakdown-grid {
+display: grid;
+gap: 12px;
+}
+.breakdown-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 14px 0;
+border-bottom: 1px solid var(--gray-200);
+font-size: 15px;
+}
+.breakdown-row:last-child {
+border-bottom: none;
+}
+.breakdown-label {
+color: var(--gray-700);
+font-weight: 500;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.breakdown-value {
+font-weight: 700;
+color: var(--navy-primary);
+font-size: 16px;
+}
+.breakdown-total {
+background: var(--gray-50);
+margin: 20px -30px -30px;
+padding: 20px 30px;
+border-top: 2px solid var(--gray-300);
+}
+.total-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.total-label {
+font-size: 16px;
+font-weight: 700;
+color: var(--navy-primary);
+}
+.total-value {
+font-size: 24px;
+font-weight: 800;
+color: var(--navy-primary);
+}
+/* Verdict Section */
+.verdict-card {
+border-radius: 12px;
+padding: 28px;
+margin-bottom: 35px;
+border: 2px solid;
+}
+.verdict-card.success {
+background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+border-color: var(--success-green);
+}
+.verdict-card.warning {
+background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+border-color: var(--warning-amber);
+}
+.verdict-card.danger {
+background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+border-color: var(--danger-red);
+}
+.verdict-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 14px;
+}
+.verdict-icon {
+font-size: 28px;
+}
+.verdict-title {
+font-size: 20px;
+font-weight: 800;
+}
+.verdict-card.success .verdict-title {
+color: #065f46;
+}
+.verdict-card.warning .verdict-title {
+color: #92400e;
+}
+.verdict-card.danger .verdict-title {
+color: #991b1b;
+}
+.verdict-text {
+line-height: 1.7;
+font-size: 15px;
+font-weight: 500;
+}
+.verdict-card.success .verdict-text {
+color: #047857;
+}
+.verdict-card.warning .verdict-text {
+color: #78350f;
+}
+.verdict-card.danger .verdict-text {
+color: #7f1d1d;
+}
+/* Email Capture */
+.email-form {
+background: var(--gray-50);
+padding: 25px;
+border-radius: 12px;
+margin: 30px 0;
+text-align: center;
+border: 1px solid var(--gray-200);
+}
+.email-form h4 {
+margin-bottom: 15px;
+font-size: 18px;
+font-weight: 700;
+color: var(--navy-primary);
+}
+.email-form p {
+color: var(--gray-700);
+margin-bottom: 20px;
+font-size: 15px;
+}
+.email-input-group {
+display: flex;
+max-width: 500px;
+margin: 0 auto;
+gap: 10px;
+}
+.email-input-group input {
+flex: 1;
+padding: 12px 16px;
+border: 2px solid var(--gray-300);
+border-radius: 8px;
+font-size: 15px;
+}
+.email-input-group button {
+background: var(--teal-accent);
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 8px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.email-input-group button:hover {
+background: var(--teal-light);
+}
+.email-disclaimer {
+font-size: 12px;
+color: var(--gray-600);
+margin-top: 12px;
+}
+/* Free Prompt CTA */
+.free-prompt {
+background: #e3f2fd;
+padding: 25px;
+border-radius: 12px;
+margin: 30px 0;
+text-align: center;
+border: 1px solid #bbdefb;
+}
+.free-prompt h4 {
+margin-bottom: 12px;
+color: var(--teal-accent);
+font-size: 18px;
+font-weight: 700;
+}
+.free-prompt p {
+color: var(--gray-700);
+margin-bottom: 20px;
+font-size: 15px;
+line-height: 1.6;
+}
+.free-prompt a {
+color: var(--teal-accent);
+text-decoration: underline;
+font-weight: 600;
+font-size: 16px;
+}
+.free-prompt a:hover {
+text-decoration: none;
+}
+/* Scarcity Banner */
+.scarcity-banner {
+background: #fff3cd;
+color: #856404;
+padding: 15px;
+border-radius: 10px;
+text-align: center;
+font-weight: 700;
+margin: 30px 0;
+border: 1px solid #ffeaa7;
+font-size: 16px;
+}
+/* CTA Section */
+.cta-section {
+background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 50%, var(--teal-accent) 100%);
+border-radius: 16px;
+padding: 45px 40px;
+color: white;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+.cta-section::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -10%;
+width: 400px;
+height: 400px;
+background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+border-radius: 50%;
+}
+.cta-content {
+position: relative;
+z-index: 1;
+}
+.cta-badge {
+display: inline-block;
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+padding: 8px 20px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 20px;
+}
+.cta-title {
+font-size: 32px;
+font-weight: 800;
+margin-bottom: 16px;
+line-height: 1.2;
+}
+.cta-description {
+font-size: 16px;
+line-height: 1.7;
+opacity: 0.95;
+margin-bottom: 12px;
+max-width: 700px;
+margin-left: auto;
+margin-right: auto;
+}
+.cta-features {
+display: flex;
+justify-content: center;
+gap: 30px;
+margin: 25px 0 35px;
+flex-wrap: wrap;
+}
+.cta-feature {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 14px;
+font-weight: 600;
+}
+.cta-buttons {
+display: flex;
+gap: 15px;
+justify-content: center;
+flex-wrap: wrap;
+}
+.btn-primary {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+background: white;
+color: var(--navy-primary);
+padding: 16px 32px;
+border-radius: 10px;
+text-decoration: none;
+font-weight: 700;
+font-size: 16px;
+transition: all 0.3s ease;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+.btn-primary:hover {
+transform: translateY(-3px);
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+.btn-secondary {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+color: white;
+padding: 16px 32px;
+border-radius: 10px;
+text-decoration: none;
+font-weight: 700;
+font-size: 16px;
+transition: all 0.3s ease;
+border: 2px solid rgba(255,255,255,0.3);
+}
+.btn-secondary:hover {
+background: rgba(255,255,255,0.25);
+border-color: rgba(255,255,255,0.5);
+}
+/* Footer */
+.footer {
+background: var(--gray-50);
+padding: 40px;
+text-align: center;
+border-top: 1px solid var(--gray-200);
+}
+.footer-brand {
+font-weight: 700;
+color: var(--navy-primary);
+margin-bottom: 12px;
+font-size: 16px;
+}
+.footer-text {
+color: var(--gray-600);
+font-size: 14px;
+line-height: 1.6;
+margin-bottom: 20px;
+}
+.footer-links {
+display: flex;
+justify-content: center;
+gap: 25px;
+flex-wrap: wrap;
+}
+.footer-link {
+color: var(--teal-accent);
+text-decoration: none;
+font-weight: 600;
+font-size: 14px;
+transition: all 0.3s ease;
+}
+.footer-link:hover {
+color: var(--navy-primary);
+text-decoration: underline;
+}
+/* Responsive */
+@media (max-width: 768px) {
+.header {
+padding: 40px 30px;
+}
+.header h1 {
+font-size: 28px;
+}
+.stats-bar {
+flex-direction: column;
+gap: 15px;
+}
+.content {
+padding: 40px 30px;
+}
+.calculator-section {
+padding: 25px;
+}
+.input-grid {
+grid-template-columns: 1fr;
+}
+.key-metrics {
+grid-template-columns: 1fr;
+}
+.cta-section {
+padding: 35px 25px;
+}
+.cta-title {
+font-size: 24px;
+}
+.cta-features {
+flex-direction: column;
+gap: 12px;
+}
+.cta-buttons {
+flex-direction: column;
+}
+.btn-primary, .btn-secondary {
+width: 100%;
+justify-content: center;
+}
+.email-input-group {
+flex-direction: column;
+}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-content">
-                <div class="brand">
-                    <div class="brand-icon">🪶</div>
-                    <div class="brand-name">Modern Magpie</div>
-                </div>
-                <h1>Etsy POD Profit Calculator</h1>
-                <p class="subtitle">Know your EXACT profit before you list anything</p>
-                <div class="stats-bar">
-                    <div class="stat-item">
-                        <div class="stat-value">100%</div>
-                        <div class="stat-label">Free Forever</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+<!-- Header -->
+<div class="header">
+<div class="header-content">
+<div class="brand">
+<div class="brand-name">Modern Magpie</div>
+</div>
+<h1>Etsy POD Profit Calculator</h1>
+<p class="subtitle">Know your EXACT profit before you list anything</p>
+<div class="stats-bar">
+<div class="stat-item">
+<div class="stat-value">100%</div>
+<div class="stat-label">Free Forever</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Content -->
+<div class="content">
+<!-- Alert -->
+<div class="alert-info">
+<div class="alert-info-header">
+<span class="alert-icon">⚠️</span>
+<span class="alert-title">Why This Calculator Exists</span>
+</div>
+<p class="alert-text">80% of Etsy POD beginners underprice by $3-8 per product because they forget hidden fees. After 100 sales, that's $300-800 lost. This calculator accounts for ALL 7 Etsy fee types so you price correctly from Day 1.</p>
+</div>
+<!-- Calculator Form -->
+<div class="calculator-section">
+<h2 class="section-title">
+<span>📊</span>
+<span>Enter Your Product Details</span>
+</h2>
+<div class="input-grid">
+<div class="input-group">
+<label class="input-label">
+<span class="label-icon">💵</span>
+<span>Your Sale Price</span>
+</label>
+<div class="input-wrapper">
+<span class="input-prefix">$</span>
+<input type="number" id="salePrice" step="0.01" min="0" value="24.99" placeholder="24.99">
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">
+<span class="label-icon">🏭</span>
+<span>POD Base Cost</span>
+</label>
+<div class="input-wrapper">
+<span class="input-prefix">$</span>
+<input type="number" id="podCost" step="0.01" min="0" value="12.50" placeholder="12.50">
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">
+<span class="label-icon">📦</span>
+<span>Shipping Cost</span>
+</label>
+<div class="input-wrapper">
+<span class="input-prefix">$</span>
+<input type="number" id="shippingCost" step="0.01" min="0" value="4.99" placeholder="4.99">
+</div>
+</div>
+</div>
+<div class="checkbox-card" id="offsiteAdsCard">
+<input type="checkbox" id="offsiteAds">
+<label class="checkbox-label" for="offsiteAds">
+<strong>Offsite Ads Enabled?</strong> (Adds 12% fee when Etsy drives sale via Google/Facebook ads)
+</label>
+</div>
+<button class="btn-calculate" onclick="calculateProfit(true)">
+<span>⚡</span>
+<span>Calculate My TRUE Profit</span>
+</button>
+</div>
+<!-- Results -->
+<div class="results" id="results">
+<div class="results-header">
+<h2 class="results-title">Your Profit Analysis</h2>
+<p class="results-subtitle">Based on current Etsy fee structure (2025)</p>
+</div>
+<div class="key-metrics">
+<div class="metric-card">
+<div class="metric-label">💰 Actual Profit</div>
+<div class="metric-value" id="actualProfit">$0.00</div>
+<div class="metric-detail">Per sale after ALL fees</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">📊 Profit Margin</div>
+<div class="metric-value" id="profitMargin">0%</div>
+<div class="metric-detail">Industry target: 20%+</div>
+</div>
+<div class="metric-card">
+<div class="metric-label">⚖️ Break-Even Price</div>
+<div class="metric-value" id="breakEven" style="color: var(--navy-primary);">$0.00</div>
+<div class="metric-detail">Minimum to not lose money</div>
+</div>
+</div>
+<div class="breakdown-section">
+<h3 class="breakdown-title">
+<span>🔍</span>
+<span>Complete Fee Breakdown</span>
+</h3>
+<div class="breakdown-grid">
+<div class="breakdown-row">
+<span class="breakdown-label">Etsy Listing Fee</span>
+<span class="breakdown-value" id="listingFee">$0.00</span>
+</div>
+<div class="breakdown-row">
+<span class="breakdown-label">Transaction Fee (6.5%)</span>
+<span class="breakdown-value" id="transactionFee">$0.00</span>
+</div>
+<div class="breakdown-row">
+<span class="breakdown-label">Payment Processing (3% + $0.25)</span>
+<span class="breakdown-value" id="paymentFee">$0.00</span>
+</div>
+<div class="breakdown-row" id="offsiteAdsRow" style="display: none;">
+<span class="breakdown-label">Offsite Ads Fee (12%)</span>
+<span class="breakdown-value" id="offsiteAdsFee">$0.00</span>
+</div>
+<div class="breakdown-row">
+<span class="breakdown-label">POD Cost + Shipping</span>
+<span class="breakdown-value" id="podTotal">$0.00</span>
+</div>
+</div>
+<div class="breakdown-total">
+<div class="total-row">
+<span class="total-label">💸 Total Costs</span>
+<span class="total-value" id="totalCosts">$0.00</span>
+</div>
+</div>
+</div>
+<div class="verdict-card" id="verdictCard">
+<div class="verdict-header">
+<span class="verdict-icon" id="verdictIcon">✅</span>
+<h3 class="verdict-title" id="verdictTitle">Verdict</h3>
+</div>
+<p class="verdict-text" id="verdictText">Calculate to see your verdict</p>
+</div>
+</div>
+<!-- Email Capture -->
+<div class="email-form">
+<h4>📬 Get Weekly Etsy Pricing Tips (Optional)</h4>
+<p>Join 100+ sellers who get actionable pricing insights every week.</p>
+<form action="[YOUR_MAILERLITE_FORM_URL]" method="post">
+<div class="email-input-group">
+<input type="email" name="email" placeholder="your@email.com" required>
+<button type="submit">Subscribe</button>
+</div>
+</form>
+<p class="email-disclaimer">No spam. Unsubscribe anytime.</p>
+</div>
+<!-- Free Prompt CTA -->
+<div class="free-prompt">
+<h4>✨ Want to See the AI Behind This?</h4>
+<p>Get the complete F1 prompt text — copy-paste into ChatGPT to generate your own profit calculator.</p>
+<a href="https://modernmagpie.gumroad.com/l/f1-prompt-free" target="_blank">Get Free F1 Prompt →</a>
+</div>
+<!-- Scarcity Banner -->
+<div class="scarcity-banner">
+⏳ Week 1 Pricing Ends Jan 18 — $37 (Save $10) 👥 100+ sellers have used this calculator to launch profitably
+</div>
+<!-- CTA Section -->
+<div class="cta-section">
+<div class="cta-content">
+<div class="cta-badge">⚡ Limited Time Offer</div>
+<h2 class="cta-title">Ready to Launch Without Losing Money?</h2>
+<p class="cta-description">This calculator is the OUTPUT of F1: Profit Calculator & Fee Decoder from the Foundation Launch Kit.<br><br>The full system includes 5 more AI prompts that prevent $950–$4,200 in beginner mistakes — all designed to launch your first profitable product in 7 days.<br><br>No hype. No fluff. Just clear execution paths, early risk visibility, and confident next-step decisions before time or money is wasted.</p>
+<div class="cta-features">
+<div class="cta-feature">
+<span>✅</span>
+<span>6 AI Prompts</span>
+</div>
+<div class="cta-feature">
+<span>✅</span>
+<span>3 Professional Tools</span>
+</div>
+<div class="cta-feature">
+<span>✅</span>
+<span>Launch in 7 Days</span>
+</div>
+<div class="cta-feature">
+<span>✅</span>
+<span>14-Day Guarantee</span>
+</div>
+</div>
+<div class="cta-buttons">
+<a href="https://modernmagpie.gumroad.com/l/foundation-etsypod" class="btn-primary">
+<span>🚀</span>
+<span>Get Foundation Launch Kit - $37</span>
+</a>
+<a href="https://instagram.com/modernmagpie.co" class="btn-secondary" target="_blank">
+<span>💬</span>
+<span>Questions? Message on Instagram</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="footer">
+<div class="footer-brand">Modern Magpie | Etsy POD Systems</div>
+<p class="footer-text">
+Built by researchers, not gurus. We spent 3 months analyzing 200+ Etsy POD failures to build tools that prevent costly mistakes. No income claims. No hype. Just honest execution systems.
+</p>
+<div class="footer-links">
+<a href="https://modernmagpie.gumroad.com/l/foundation-etsypod" class="footer-link">Foundation Launch Kit</a>
+<a href="https://instagram.com/modernmagpie.co" class="footer-link" target="_blank">Instagram</a>
+<a href="mailto:contact.modernmagpie@gmail.com" class="footer-link">Contact Support</a>
+</div>
+</div>
+</div>
+<script>
+// Checkbox card interaction
+const offsiteAdsCard = document.getElementById('offsiteAdsCard');
+const offsiteAdsCheckbox = document.getElementById('offsiteAds');
+offsiteAdsCard.addEventListener('click', function(e) {
+if (e.target !== offsiteAdsCheckbox) {
+offsiteAdsCheckbox.checked = !offsiteAdsCheckbox.checked;
+}
+updateCheckboxCard();
+});
+offsiteAdsCheckbox.addEventListener('change', updateCheckboxCard);
+function updateCheckboxCard() {
+if (offsiteAdsCheckbox.checked) {
+offsiteAdsCard.classList.add('checked');
+} else {
+offsiteAdsCard.classList.remove('checked');
+}
+}
 
-        <!-- Content -->
-        <div class="content">
-            <!-- Alert -->
-            <div class="alert-info">
-                <div class="alert-info-header">
-                    <span class="alert-icon">⚠️</span>
-                    <span class="alert-title">Why This Calculator Exists</span>
-                </div>
-                <p class="alert-text">80% of Etsy POD beginners underprice by $3-8 per product because they forget hidden fees. After 100 sales, that's $300-800 lost. This calculator accounts for ALL 7 Etsy fee types so you price correctly from Day 1.</p>
-            </div>
+function calculateProfit(triggeredByButton = false) {
+const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
+const podCost = parseFloat(document.getElementById('podCost').value) || 0;
+const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+const offsiteAds = document.getElementById('offsiteAds').checked;
 
-            <!-- Calculator Form -->
-            <div class="calculator-section">
-                <h2 class="section-title">
-                    <span>📊</span>
-                    <span>Enter Your Product Details</span>
-                </h2>
+if (salePrice === 0) {
+document.getElementById('results').classList.remove('show');
+return;
+}
 
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label class="input-label">
-                            <span class="label-icon">💵</span>
-                            <span>Your Sale Price</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="salePrice" step="0.01" min="0" value="24.99" placeholder="24.99">
-                        </div>
-                    </div>
+const listingFee = 0.20;
+const transactionFee = salePrice * 0.065;
+const paymentFee = (salePrice * 0.03) + 0.25;
+const offsiteAdsFee = offsiteAds ? (salePrice * 0.12) : 0;
+const podTotal = podCost + shippingCost;
 
-                    <div class="input-group">
-                        <label class="input-label">
-                            <span class="label-icon">🏭</span>
-                            <span>POD Base Cost</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="podCost" step="0.01" min="0" value="12.50" placeholder="12.50">
-                        </div>
-                    </div>
+const totalCosts = listingFee + transactionFee + paymentFee + offsiteAdsFee + podTotal;
+const actualProfit = salePrice - totalCosts;
+const profitMargin = salePrice > 0 ? ((actualProfit / salePrice) * 100) : 0;
+const breakEven = totalCosts;
 
-                    <div class="input-group">
-                        <label class="input-label">
-                            <span class="label-icon">📦</span>
-                            <span>Shipping Cost</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="shippingCost" step="0.01" min="0" value="4.99" placeholder="4.99">
-                        </div>
-                    </div>
-                </div>
+document.getElementById('results').classList.add('show');
 
-                <div class="checkbox-card" id="offsiteAdsCard">
-                    <input type="checkbox" id="offsiteAds">
-                    <label class="checkbox-label" for="offsiteAds">
-                        <strong>Offsite Ads Enabled?</strong> (Adds 12% fee when Etsy drives sale via Google/Facebook ads)
-                    </label>
-                </div>
+const profitElement = document.getElementById('actualProfit');
+const marginElement = document.getElementById('profitMargin');
 
-                <button class="btn-calculate" onclick="calculateProfit()">
-                    <span>⚡</span>
-                    <span>Calculate My TRUE Profit</span>
-                </button>
-            </div>
+profitElement.textContent = `$${actualProfit.toFixed(2)}`;
+marginElement.textContent = `${profitMargin.toFixed(1)}%`;
+document.getElementById('breakEven').textContent = `$${breakEven.toFixed(2)}`;
 
-            <!-- Results -->
-            <div class="results" id="results">
-                <div class="results-header">
-                    <h2 class="results-title">Your Profit Analysis</h2>
-                    <p class="results-subtitle">Based on current Etsy fee structure (2025)</p>
-                </div>
+profitElement.className = 'metric-value';
+marginElement.className = 'metric-value';
 
-                <div class="key-metrics">
-                    <div class="metric-card">
-                        <div class="metric-label">💰 Actual Profit</div>
-                        <div class="metric-value" id="actualProfit">$0.00</div>
-                        <div class="metric-detail">Per sale after ALL fees</div>
-                    </div>
+if (actualProfit >= 8) {
+profitElement.classList.add('positive');
+marginElement.classList.add('positive');
+} else if (actualProfit >= 5) {
+profitElement.classList.add('warning');
+marginElement.classList.add('warning');
+} else {
+profitElement.classList.add('negative');
+marginElement.classList.add('negative');
+}
 
-                    <div class="metric-card">
-                        <div class="metric-label">📊 Profit Margin</div>
-                        <div class="metric-value" id="profitMargin">0%</div>
-                        <div class="metric-detail">Industry target: 20%+</div>
-                    </div>
+document.getElementById('listingFee').textContent = `$${listingFee.toFixed(2)}`;
+document.getElementById('transactionFee').textContent = `$${transactionFee.toFixed(2)}`;
+document.getElementById('paymentFee').textContent = `$${paymentFee.toFixed(2)}`;
+document.getElementById('podTotal').textContent = `$${podTotal.toFixed(2)}`;
+document.getElementById('totalCosts').textContent = `$${totalCosts.toFixed(2)}`;
 
-                    <div class="metric-card">
-                        <div class="metric-label">⚖️ Break-Even Price</div>
-                        <div class="metric-value" id="breakEven" style="color: var(--navy-primary);">$0.00</div>
-                        <div class="metric-detail">Minimum to not lose money</div>
-                    </div>
-                </div>
+const offsiteRow = document.getElementById('offsiteAdsRow');
+if (offsiteAds) {
+offsiteRow.style.display = 'flex';
+document.getElementById('offsiteAdsFee').textContent = `$${offsiteAdsFee.toFixed(2)}`;
+} else {
+offsiteRow.style.display = 'none';
+}
 
-                <div class="breakdown-section">
-                    <h3 class="breakdown-title">
-                        <span>🔍</span>
-                        <span>Complete Fee Breakdown</span>
-                    </h3>
+const verdictCard = document.getElementById('verdictCard');
+const verdictIcon = document.getElementById('verdictIcon');
+const verdictTitle = document.getElementById('verdictTitle');
+const verdictText = document.getElementById('verdictText');
 
-                    <div class="breakdown-grid">
-                        <div class="breakdown-row">
-                            <span class="breakdown-label">Etsy Listing Fee</span>
-                            <span class="breakdown-value" id="listingFee">$0.00</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span class="breakdown-label">Transaction Fee (6.5%)</span>
-                            <span class="breakdown-value" id="transactionFee">$0.00</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span class="breakdown-label">Payment Processing (3% + $0.25)</span>
-                            <span class="breakdown-value" id="paymentFee">$0.00</span>
-                        </div>
-                        <div class="breakdown-row" id="offsiteAdsRow" style="display: none;">
-                            <span class="breakdown-label">Offsite Ads Fee (12%)</span>
-                            <span class="breakdown-value" id="offsiteAdsFee">$0.00</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span class="breakdown-label">POD Cost + Shipping</span>
-                            <span class="breakdown-value" id="podTotal">$0.00</span>
-                        </div>
-                    </div>
+verdictCard.className = 'verdict-card';
 
-                    <div class="breakdown-total">
-                        <div class="total-row">
-                            <span class="total-label">💸 Total Costs</span>
-                            <span class="total-value" id="totalCosts">$0.00</span>
-                        </div>
-                    </div>
-                </div>
+if (actualProfit >= 8) {
+verdictCard.classList.add('success');
+verdictIcon.textContent = '✅';
+verdictTitle.textContent = 'Excellent! Sustainable Pricing';
+verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> gives you room to run Etsy Ads and scale profitably. This pricing strategy is sustainable and allows for growth. Keep this pricing structure.`;
+} else if (actualProfit >= 5) {
+verdictCard.classList.add('warning');
+verdictIcon.textContent = '⚠️';
+verdictTitle.textContent = 'Caution: Tight Margins';
+verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> is workable but tight. Industry best practice is $8+ per sale (20%+ margin) to afford Etsy Ads and scale. Consider raising your price to <strong>${(breakEven + 8).toFixed(2)}</strong> for healthier margins.`;
+} else if (actualProfit >= 0) {
+verdictCard.classList.add('danger');
+verdictIcon.textContent = '🚫';
+verdictTitle.textContent = 'Critical: Unsustainable Pricing';
+verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> is too low to sustain a business. You need minimum $5-8 profit per sale. <strong>Recommended actions:</strong> (1) Raise price to <strong>${(breakEven + 8).toFixed(2)}</strong>, OR (2) Find cheaper POD provider/shipping options.`;
+} else {
+verdictCard.classList.add('danger');
+verdictIcon.textContent = '❌';
+verdictTitle.textContent = 'ALERT: Losing Money Per Sale';
+verdictText.innerHTML = `You're <strong>LOSING ${Math.abs(actualProfit).toFixed(2)} per sale</strong>. Every sale costs you money. Your break-even price is <strong>${breakEven.toFixed(2)}</strong>. Raise to minimum <strong>${(breakEven + 8).toFixed(2)}</strong> for sustainable $8 profit per sale.`;
+}
 
-                <div class="verdict-card" id="verdictCard">
-                    <div class="verdict-header">
-                        <span class="verdict-icon" id="verdictIcon">✅</span>
-                        <h3 class="verdict-title" id="verdictTitle">Verdict</h3>
-                    </div>
-                    <p class="verdict-text" id="verdictText">Calculate to see your verdict</p>
-                </div>
-            </div>
+// ONLY scroll if user clicked the button
+if (triggeredByButton) {
+document.getElementById('results').scrollIntoView({ 
+behavior: 'smooth', 
+block: 'start' 
+});
+}
+}
 
-            <!-- Email Capture -->
-            <div class="email-form">
-                <h4>📬 Get Weekly Etsy Pricing Tips (Optional)</h4>
-                <p>Join 100+ sellers who get actionable pricing insights every week.</p>
-                <form action="[YOUR_MAILERLITE_FORM_URL]" method="post">
-                    <div class="email-input-group">
-                        <input type="email" name="email" placeholder="your@email.com" required>
-                        <button type="submit">Subscribe</button>
-                    </div>
-                </form>
-                <p class="email-disclaimer">No spam. Unsubscribe anytime.</p>
-            </div>
-
-            <!-- Free Prompt CTA -->
-            <div class="free-prompt">
-                <h4>✨ Want to See the AI Behind This?</h4>
-                <p>Get the complete F1 prompt text — copy-paste into ChatGPT to generate your own profit calculator.</p>
-                <a href="https://modernmagpie.gumroad.com/l/f1-prompt-free" target="_blank">Get Free F1 Prompt →</a>
-            </div>
-
-            <!-- Scarcity Banner -->
-            <div class="scarcity-banner">
-                ⏳ Week 1 Pricing Ends Jan 18 — $37 (Save $10) 👥 100+ sellers have used this calculator to launch profitably
-            </div>
-
-            <!-- CTA Section -->
-            <div class="cta-section">
-                <div class="cta-content">
-                    <div class="cta-badge">⚡ Limited Time Offer</div>
-                    <h2 class="cta-title">Ready to Launch Without Losing Money?</h2>
-                    <p class="cta-description">This calculator is the OUTPUT of F1: Profit Calculator & Fee Decoder from the Foundation Launch Kit.<br><br>The full system includes 5 more AI prompts that prevent $950–$4,200 in beginner mistakes — all designed to launch your first profitable product in 7 days.<br><br>No hype. No fluff. Just clear execution paths, early risk visibility, and confident next-step decisions before time or money is wasted.</p>
-                    
-                    <div class="cta-features">
-                        <div class="cta-feature">
-                            <span>✅</span>
-                            <span>6 AI Prompts</span>
-                        </div>
-                        <div class="cta-feature">
-                            <span>✅</span>
-                            <span>3 Professional Tools</span>
-                        </div>
-                        <div class="cta-feature">
-                            <span>✅</span>
-                            <span>Launch in 7 Days</span>
-                        </div>
-                        <div class="cta-feature">
-                            <span>✅</span>
-                            <span>14-Day Guarantee</span>
-                        </div>
-                    </div>
-
-                    <div class="cta-buttons">
-                        <a href="https://modernmagpie.gumroad.com/l/foundation-etsypod" class="btn-primary">
-                            <span>🚀</span>
-                            <span>Get Foundation Launch Kit - $37</span>
-                        </a>
-                        <a href="https://instagram.com/modernmagpie.co" class="btn-secondary" target="_blank">
-                            <span>💬</span>
-                            <span>Questions? Message on Instagram</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-brand">Modern Magpie | Etsy POD Systems</div>
-            <p class="footer-text">
-                Built by researchers, not gurus. We spent 3 months analyzing 200+ Etsy POD failures to build tools that prevent costly mistakes. No income claims. No hype. Just honest execution systems.
-            </p>
-            <div class="footer-links">
-                <a href="https://modernmagpie.gumroad.com/l/foundation-etsypod" class="footer-link">Foundation Launch Kit</a>
-                <a href="https://instagram.com/modernmagpie.co" class="footer-link" target="_blank">Instagram</a>
-                <a href="mailto:contact.modernmagpie@gmail.com" class="footer-link">Contact Support</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Checkbox card interaction
-        const offsiteAdsCard = document.getElementById('offsiteAdsCard');
-        const offsiteAdsCheckbox = document.getElementById('offsiteAds');
-
-        offsiteAdsCard.addEventListener('click', function(e) {
-            if (e.target !== offsiteAdsCheckbox) {
-                offsiteAdsCheckbox.checked = !offsiteAdsCheckbox.checked;
-            }
-            updateCheckboxCard();
-        });
-
-        offsiteAdsCheckbox.addEventListener('change', updateCheckboxCard);
-
-        function updateCheckboxCard() {
-            if (offsiteAdsCheckbox.checked) {
-                offsiteAdsCard.classList.add('checked');
-            } else {
-                offsiteAdsCard.classList.remove('checked');
-            }
-        }
-
-        function calculateProfit() {
-            const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
-            const podCost = parseFloat(document.getElementById('podCost').value) || 0;
-            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
-            const offsiteAds = document.getElementById('offsiteAds').checked;
-
-            if (salePrice === 0) {
-                alert('⚠️ Please enter a sale price to calculate profit');
-                return;
-            }
-
-            // ACCURATE FEE CALCULATIONS (2025 Etsy structure)
-            const listingFee = 0.20; // Fixed per listing
-            const transactionFee = salePrice * 0.065; // 6.5% of item price only
-            const paymentFee = (salePrice * 0.03) + 0.25; // 3% + $0.25 of item price
-            const offsiteAdsFee = offsiteAds ? (salePrice * 0.12) : 0; // 12% of item price (not total)
-            const podTotal = podCost + shippingCost;
-
-            const totalCosts = listingFee + transactionFee + paymentFee + offsiteAdsFee + podTotal;
-            const actualProfit = salePrice - totalCosts;
-            const profitMargin = salePrice > 0 ? ((actualProfit / salePrice) * 100) : 0;
-            
-            // Break-even calculation
-            const breakEven = totalCosts;
-
-            // Display results
-            document.getElementById('results').classList.add('show');
-            
-            const profitElement = document.getElementById('actualProfit');
-            const marginElement = document.getElementById('profitMargin');
-            
-            profitElement.textContent = `$${actualProfit.toFixed(2)}`;
-            marginElement.textContent = `${profitMargin.toFixed(1)}%`;
-            document.getElementById('breakEven').textContent = `$${breakEven.toFixed(2)}`;
-
-            // Color coding for profit
-            profitElement.className = 'metric-value';
-            marginElement.className = 'metric-value';
-            
-            if (actualProfit >= 8) {
-                profitElement.classList.add('positive');
-                marginElement.classList.add('positive');
-            } else if (actualProfit >= 5) {
-                profitElement.classList.add('warning');
-                marginElement.classList.add('warning');
-            } else {
-                profitElement.classList.add('negative');
-                marginElement.classList.add('negative');
-            }
-
-            // Breakdown display
-            document.getElementById('listingFee').textContent = `$${listingFee.toFixed(2)}`;
-            document.getElementById('transactionFee').textContent = `$${transactionFee.toFixed(2)}`;
-            document.getElementById('paymentFee').textContent = `$${paymentFee.toFixed(2)}`;
-            document.getElementById('podTotal').textContent = `$${podTotal.toFixed(2)}`;
-            document.getElementById('totalCosts').textContent = `$${totalCosts.toFixed(2)}`;
-
-            // Offsite ads row
-            const offsiteRow = document.getElementById('offsiteAdsRow');
-            if (offsiteAds) {
-                offsiteRow.style.display = 'flex';
-                document.getElementById('offsiteAdsFee').textContent = `$${offsiteAdsFee.toFixed(2)}`;
-            } else {
-                offsiteRow.style.display = 'none';
-            }
-
-            // Verdict card
-            const verdictCard = document.getElementById('verdictCard');
-            const verdictIcon = document.getElementById('verdictIcon');
-            const verdictTitle = document.getElementById('verdictTitle');
-            const verdictText = document.getElementById('verdictText');
-
-            verdictCard.className = 'verdict-card';
-
-            if (actualProfit >= 8) {
-                verdictCard.classList.add('success');
-                verdictIcon.textContent = '✅';
-                verdictTitle.textContent = 'Excellent! Sustainable Pricing';
-                verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> gives you room to run Etsy Ads and scale profitably. This pricing strategy is sustainable and allows for growth. Keep this pricing structure.`;
-            } else if (actualProfit >= 5) {
-                verdictCard.classList.add('warning');
-                verdictIcon.textContent = '⚠️';
-                verdictTitle.textContent = 'Caution: Tight Margins';
-                verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> is workable but tight. Industry best practice is $8+ per sale (20%+ margin) to afford Etsy Ads and scale. Consider raising your price to <strong>${(breakEven + 8).toFixed(2)}</strong> for healthier margins.`;
-            } else if (actualProfit >= 0) {
-                verdictCard.classList.add('danger');
-                verdictIcon.textContent = '🚫';
-                verdictTitle.textContent = 'Critical: Unsustainable Pricing';
-                verdictText.innerHTML = `Your profit of <strong>${actualProfit.toFixed(2)} per sale (${profitMargin.toFixed(1)}% margin)</strong> is too low to sustain a business. You need minimum $5-8 profit per sale. <strong>Recommended actions:</strong> (1) Raise price to <strong>${(breakEven + 8).toFixed(2)}</strong>, OR (2) Find cheaper POD provider/shipping options.`;
-            } else {
-                verdictCard.classList.add('danger');
-                verdictIcon.textContent = '❌';
-                verdictTitle.textContent = 'ALERT: Losing Money Per Sale';
-                verdictText.innerHTML = `You're <strong>LOSING ${Math.abs(actualProfit).toFixed(2)} per sale</strong>. Every sale costs you money. Your break-even price is <strong>${breakEven.toFixed(2)}</strong>. Raise to minimum <strong>${(breakEven + 8).toFixed(2)}</strong> for sustainable $8 profit per sale.`;
-            }
-
-            // Smooth scroll to results
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        // Calculate on page load
-        window.addEventListener('load', function() {
-            calculateProfit();
-        });
-
-        // Recalculate on input change
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', calculateProfit);
-        });
-    </script>
+// Calculate on page load
+window.addEventListener('load', function() {
+calculateProfit();
+});
+</script>
 </body>
 </html>
